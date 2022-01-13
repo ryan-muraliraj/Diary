@@ -31,26 +31,27 @@ class EntryHandler():
     def retrieve_message(self) -> None:
         return self.message
 
-    def create_file(self, message:str) -> str:
+    def create_file(self, message:str) -> bool:
         x = os.path.realpath(os.path.dirname(__file__)) + "\\{NAME}.json".format(NAME = date.today())
         print(x)
         self.path = Path(x)
         if os.path.exists(self.path):
             print("File already exists")
-            return "Error"       
+            return False       
         try:
             f = open(self.path, 'w')
             self.json = {'entry' : message}
             print(self.json)
             json.dump(self.json, f)
             f.close()
-            return "Success"
+            return True
         except Exception as ex:
             print(ex)
-            return "Error"
+            return False
         pass      
         
 
 handler = EntryHandler()
-handler.create_file("WOOOOOOOO")
-#print(handler.retrieve_message())
+handler.create_file("Today I took two quizzes!")
+#handler.load_file("2022-01-08")
+print(handler.retrieve_message())
